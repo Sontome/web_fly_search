@@ -1,0 +1,115 @@
+
+<!-- saved from url=(0062)file:///C:/Users/devil/OneDrive/M%C3%A1y%20t%C3%ADnh/test.html -->
+<html lang="vi"><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tìm vé máy bay giá r&#7867;</title>
+  <script src="./test_files/saved_resource"></script>
+</head>
+<body class="bg-zinc-900 text-white p-6">
+  <h1 class="text-2xl font-bold mb-4">&#128747; Tìm vé máy bay giá r&#7867;</h1>
+
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+    <input id="from" placeholder="N&#417;i &#273;i (SGN)" class="bg-zinc-800 text-white placeholder:text-zinc-400 p-2 rounded">
+    <input id="to" placeholder="N&#417;i &#273;&#7871;n (HAN)" class="bg-zinc-800 text-white placeholder:text-zinc-400 p-2 rounded">
+    <input id="date" type="date" class="bg-zinc-800 text-white placeholder:text-zinc-400 p-2 rounded">
+    <input id="returnDate" type="date" class="bg-zinc-800 text-white placeholder:text-zinc-400 p-2 rounded hidden">
+  </div>
+
+  <div class="flex gap-4 mb-4">
+    <button id="btnOneway" class="bg-white text-black px-4 py-2 rounded">1 chi&#7873;u</button>
+    <button id="btnRound" class="border border-white px-4 py-2 rounded">Kh&#7913; h&#7891;i</button>
+    <button id="searchBtn" class="bg-blue-500 px-4 py-2 rounded">Tìm vé</button>
+  </div>
+
+  <p id="loadingText" class="text-yellow-400 hidden">&#272;ang tìm ki&#7871;m vé ngon... &#128373;&#65039;&#8205;&#9794;&#65039;</p>
+
+  <div id="resultContainer" class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6"></div>
+
+  <script>
+    let isRound = false;
+    const btnOneway = document.getElementById("btnOneway");
+    const btnRound = document.getElementById("btnRound");
+    const returnInput = document.getElementById("returnDate");
+
+    btnOneway.onclick = () => {
+      isRound = false;
+      btnOneway.classList.add("bg-white", "text-black");
+      btnRound.classList.remove("bg-white", "text-black");
+      returnInput.classList.add("hidden");
+    };
+
+    btnRound.onclick = () => {
+      isRound = true;
+      btnRound.classList.add("bg-white", "text-black");
+      btnOneway.classList.remove("bg-white", "text-black");
+      returnInput.classList.remove("hidden");
+    };
+
+    document.getElementById("searchBtn").onclick = async () => {
+      const from = document.getElementById("from").value.trim();
+      const to = document.getElementById("to").value.trim();
+      const date = document.getElementById("date").value;
+      const returnDate = document.getElementById("returnDate").value;
+
+      if (!from || !to || !date) {
+        alert("&#272;i&#7873;n &#273;&#7847;y &#273;&#7911; thông tin &#273;i &#273;&#7841;i ca &#128548;");
+        return;
+      }
+
+      const formatDate = (d) => {
+        try {
+          return new Date(d).toISOString().split("T")[0];
+        } catch {
+          return d;
+        }
+      };
+
+      const url = new URL("https://f4e4-210-245-49-50.ngrok-free.app/check-ve-vj");
+      url.searchParams.append("city_pair", `${from}-${to}`);
+      url.searchParams.append("departure_place", from);
+      url.searchParams.append("departure_place_name", from);
+      url.searchParams.append("return_place", to);
+      url.searchParams.append("return_place_name", to);
+      url.searchParams.append("departure_date", formatDate(date));
+      url.searchParams.append("return_date", formatDate(returnDate || date));
+      url.searchParams.append("adult_count", "1");
+      url.searchParams.append("child_count", "0");
+      url.searchParams.append("sochieu", isRound ? "2" : "1");
+      url.searchParams.append("name", "Khách l&#7867;");
+
+      document.getElementById("loadingText").classList.remove("hidden");
+      const resBox = document.getElementById("resultContainer");
+      resBox.innerHTML = "";
+
+      try {
+        const res = await fetch(url, {
+          headers: { "ngrok-skip-browser-warning": "true" }
+        });
+
+        const text = await res.text();
+        let results = [];
+
+        try {
+          const json = JSON.parse(text);
+          if (json.message) results = [json.message];
+          else results = Array.isArray(json) ? json : [json];
+        } catch {
+          results = [text];
+        }
+
+        for (const r of results) {
+          const div = document.createElement("div");
+          div.className = "bg-zinc-800 text-white p-4 rounded whitespace-pre-line";
+          div.textContent = r;
+          resBox.appendChild(div);
+        }
+      } catch (err) {
+        alert("L&#7895;i g&#7885;i API: " + err.message);
+      }
+
+      document.getElementById("loadingText").classList.add("hidden");
+    };
+  </script>
+
+</body></html>
