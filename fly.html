@@ -9,23 +9,22 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     body { font-family: 'Roboto', sans-serif; }
-    .input, .button {
-      @apply bg-zinc-800 text-white px-3 py-2 rounded w-full;
-    }
+    input::placeholder { color: #a1a1aa; } /* placeholder:text-zinc-400 */
+    input { color: white; }
   </style>
 </head>
 <body class="min-h-screen bg-zinc-900 text-white p-6">
   <h1 class="text-2xl font-bold mb-4">🛫 Tìm vé máy bay giá rẻ</h1>
   <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
-    <input id="from" placeholder="Nơi đi (SGN)" class="input" />
-    <input id="to" placeholder="Nơi đến (HAN)" class="input" />
-    <input id="date" type="date" class="input" />
-    <input id="returnDate" type="date" class="input hidden" />
+    <input id="from" placeholder="Nơi đi (SGN)" class="bg-zinc-800 text-white px-3 py-2 rounded w-full" />
+    <input id="to" placeholder="Nơi đến (HAN)" class="bg-zinc-800 text-white px-3 py-2 rounded w-full" />
+    <input id="date" type="date" class="bg-zinc-800 text-white px-3 py-2 rounded w-full" />
+    <input id="returnDate" type="date" class="bg-zinc-800 text-white px-3 py-2 rounded w-full hidden" />
   </div>
   <div class="flex gap-4 mb-4">
-    <button onclick="setType('oneway')" id="btnOneway" class="button bg-blue-600">1 chiều</button>
-    <button onclick="setType('round')" id="btnRound" class="button bg-zinc-700">Khứ hồi</button>
-    <button onclick="searchFlight()" class="button bg-green-600">Tìm vé</button>
+    <button onclick="setType('oneway')" id="btnOneway" class="bg-blue-600 text-white px-3 py-2 rounded">1 chiều</button>
+    <button onclick="setType('round')" id="btnRound" class="bg-zinc-700 text-white px-3 py-2 rounded">Khứ hồi</button>
+    <button onclick="searchFlight()" class="bg-green-600 text-white px-3 py-2 rounded">Tìm vé</button>
   </div>
   <p id="loading" class="text-yellow-400 hidden">Đang tìm kiếm vé ngon... 🕵️‍♂️</p>
   <div id="results" class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6"></div>
@@ -35,8 +34,8 @@
 
     function setType(t) {
       type = t;
-      document.getElementById('btnOneway').className = t === 'oneway' ? 'button bg-blue-600' : 'button bg-zinc-700';
-      document.getElementById('btnRound').className = t === 'round' ? 'button bg-blue-600' : 'button bg-zinc-700';
+      document.getElementById('btnOneway').className = t === 'oneway' ? 'bg-blue-600 text-white px-3 py-2 rounded' : 'bg-zinc-700 text-white px-3 py-2 rounded';
+      document.getElementById('btnRound').className = t === 'round' ? 'bg-blue-600 text-white px-3 py-2 rounded' : 'bg-zinc-700 text-white px-3 py-2 rounded';
       document.getElementById('returnDate').classList.toggle('hidden', t !== 'round');
     }
 
