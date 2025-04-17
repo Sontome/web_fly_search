@@ -1,0 +1,101 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tìm vé máy bay</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { font-family: 'Roboto', sans-serif; }
+    .input, .button {
+      @apply bg-zinc-800 text-white px-3 py-2 rounded w-full;
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-zinc-900 text-white p-6">
+  <h1 class="text-2xl font-bold mb-4">🛫 Tìm vé máy bay giá rẻ</h1>
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+    <input id="from" placeholder="Nơi đi (SGN)" class="input" />
+    <input id="to" placeholder="Nơi đến (HAN)" class="input" />
+    <input id="date" type="date" class="input" />
+    <input id="returnDate" type="date" class="input hidden" />
+  </div>
+  <div class="flex gap-4 mb-4">
+    <button onclick="setType('oneway')" id="btnOneway" class="button bg-blue-600">1 chiều</button>
+    <button onclick="setType('round')" id="btnRound" class="button bg-zinc-700">Khứ hồi</button>
+    <button onclick="searchFlight()" class="button bg-green-600">Tìm vé</button>
+  </div>
+  <p id="loading" class="text-yellow-400 hidden">Đang tìm kiếm vé ngon... 🕵️‍♂️</p>
+  <div id="results" class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6"></div>
+
+  <script>
+    let type = "oneway";
+
+    function setType(t) {
+      type = t;
+      document.getElementById('btnOneway').className = t === 'oneway' ? 'button bg-blue-600' : 'button bg-zinc-700';
+      document.getElementById('btnRound').className = t === 'round' ? 'button bg-blue-600' : 'button bg-zinc-700';
+      document.getElementById('returnDate').classList.toggle('hidden', t !== 'round');
+    }
+
+    function formatDate(d) {
+      try {
+        return new Date(d).toISOString().split('T')[0];
+      } catch {
+        return d;
+      }
+    }
+
+    async function searchFlight() {
+      const from = document.getElementById('from').value;
+      const to = document.getElementById('to').value;
+      const date = document.getElementById('date').value;
+      const returnDate = document.getElementById('returnDate').value || date;
+      const loadingEl = document.getElementById('loading');
+      const resultsEl = document.getElementById('results');
+      loadingEl.classList.remove('hidden');
+      resultsEl.innerHTML = '';
+
+      const url = new URL("https://f4e4-210-245-49-50.ngrok-free.app/check-ve-vj");
+      url.searchParams.append("city_pair", `${from}-${to}`);
+      url.searchParams.append("departure_place", from);
+      url.searchParams.append("departure_place_name", from);
+      url.searchParams.append("return_place", to);
+      url.searchParams.append("return_place_name", to);
+      url.searchParams.append("departure_date", formatDate(date));
+      url.searchParams.append("return_date", formatDate(returnDate));
+      url.searchParams.append("adult_count", "1");
+      url.searchParams.append("child_count", "0");
+      url.searchParams.append("sochieu", type === "round" ? "2" : "1");
+      url.searchParams.append("name", "Khách lẻ");
+
+      try {
+        const res = await fetch(url, {
+          headers: { 'ngrok-skip-browser-warning': 'true' }
+        });
+
+        const contentType = res.headers.get("content-type");
+        const rawData = await res.text();
+
+        let data;
+        if (contentType && contentType.includes("application/json")) {
+          data = JSON.parse(rawData);
+        } else {
+          data = [rawData];
+        }
+
+        const messages = Array.isArray(data) ? data : [data.message || JSON.stringify(data)];
+        resultsEl.innerHTML = messages.map(msg => 
+          `<div class="bg-zinc-800 p-4 rounded whitespace-pre-line">${msg}</div>`
+        ).join("");
+      } catch (err) {
+        alert("Lỗi: " + err.message);
+      }
+
+      loadingEl.classList.add('hidden');
+    }
+  </script>
+</body>
+</html>
