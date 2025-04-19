@@ -72,43 +72,71 @@
       const resultsEl = document.getElementById('results');
       loadingEl.classList.remove('hidden');
       resultsEl.innerHTML = '';
-
-      const url = new URL("https://f4e4-210-245-49-50.ngrok-free.app/check-ve-vj");
-      url.searchParams.append("city_pair", `${from}-${to}`);
-      url.searchParams.append("departure_place", from);
-      url.searchParams.append("departure_place_name", from);
-      url.searchParams.append("return_place", to);
-      url.searchParams.append("return_place_name", to);
-      url.searchParams.append("departure_date", formatDate(date));
-      url.searchParams.append("return_date", formatDate(returnDate));
-      url.searchParams.append("adult_count", "1");
-      url.searchParams.append("child_count", "0");
-      url.searchParams.append("sochieu", type === "round" ? "2" : "1");
-      url.searchParams.append("name", "Khách lẻ");
-
+    
+      const baseParams = new URLSearchParams({
+        city_pair: `${from}-${to}`,
+        departure_place: from,
+        departure_place_name: from,
+        return_place: to,
+        return_place_name: to,
+        departure_date: formatDate(date),
+        return_date: formatDate(returnDate),
+        adult_count: "1",
+        child_count: "0",
+        sochieu: type === "round" ? "2" : "1",
+        name: "Khách lẻ"
+      });
+      const baseParamsVNA = new URLSearchParams({
+        
+        dep0: from,
+        
+        arr0: to,
+        
+        depdate0: formatDate(date),
+        depdate1: formatDate(returnDate),
+        
+        sochieu: type === "round" ? "2" : "1",
+        name: "Khách lẻ"
+      });
+    
+      const urls = [
+        { label: "🛫 VietJet", url: `https://f2e2-42-115-140-169.ngrok-free.app/vj/check-ve-vj?${baseParams.toString()}` },
+        { label: "✈️ VNA", url: `https://f2e2-42-115-140-169.ngrok-free.app/vna/check-ve-vna?${baseParamsVNA.toString()}` }
+      ];
+    
       try {
-        const res = await fetch(url, {
-          headers: { 'ngrok-skip-browser-warning': 'true' }
-        });
-
-        const contentType = res.headers.get("content-type");
-        const rawData = await res.text();
-
-        let data;
-        if (contentType && contentType.includes("application/json")) {
-          data = JSON.parse(rawData);
-        } else {
-          data = [rawData];
+        for (const { label, url } of urls) {
+          const res = await fetch(url, {
+            headers: { 'ngrok-skip-browser-warning': 'true' }
+          });
+    
+          const contentType = res.headers.get("content-type");
+          const rawData = await res.text();
+    
+          let data;
+          if (contentType && contentType.includes("application/json")) {
+            data = JSON.parse(rawData);
+          } else {
+            data = [rawData];
+          }
+    
+          const messages = Array.isArray(data) ? data : [data.message || JSON.stringify(data)];
+          resultsEl.innerHTML += `
+            
+            <!-- Label chiếm 10% -->
+            
+          
+            <!-- Message chiếm 80% -->
+            <div class="bg-zinc-800 p-4 rounded whitespace-pre-line w-[80%]">
+              ${messages.join('\n\n')}
+            </div>
+          </div>
+          `;
         }
-
-        const messages = Array.isArray(data) ? data : [data.message || JSON.stringify(data)];
-        resultsEl.innerHTML = messages.map(msg => 
-          `<div class="bg-zinc-800 p-4 rounded whitespace-pre-line">${msg}</div>`
-        ).join("");
       } catch (err) {
         alert("Lỗi: " + err.message);
       }
-
+    
       loadingEl.classList.add('hidden');
     }
   </script>
