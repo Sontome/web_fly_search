@@ -46,8 +46,8 @@
 </head>
 <body class="min-h-screen bg-white text-black p-6">
   <h1 class="text-2xl font-bold mb-4 text-black">🛫 Tìm vé máy bay HVA</h1>
-  <div class="form-row mb-4">
-  <select id="from" class="input-quarter">
+  <div class="flex flex-wrap gap-2 mb-4">
+  <select id="from" class="bg-gray-100 text-black px-3 py-2 rounded border border-gray-400 w-40 shrink-0">
     <option>SGN</option><option>ICN</option><option>PUS</option><option>TAE</option><option>HAN</option>
     <option>DAD</option><option>HPH</option><option>VCA</option><option>CXR</option><option>DLI</option>
     <option>VDH</option><option>BMV</option><option>VII</option><option>UIH</option><option>THD</option>
@@ -55,7 +55,7 @@
     <option>DIN</option><option>VKG</option><option>TBB</option><option>VDO</option>
   </select>
 
-  <select id="to" class="input-quarter">
+  <select id="to" class="bg-gray-100 text-black px-3 py-2 rounded border border-gray-400 w-40 shrink-0">
     <option>HAN</option><option>ICN</option><option>PUS</option><option>TAE</option><option>SGN</option>
     <option>DAD</option><option>HPH</option><option>VCA</option><option>CXR</option><option>DLI</option>
     <option>VDH</option><option>BMV</option><option>VII</option><option>UIH</option><option>THD</option>
@@ -63,11 +63,11 @@
     <option>DIN</option><option>VKG</option><option>TBB</option><option>VDO</option>
   </select>
 
-  <input id="date" type="date" class="input-quarter" />
+  <<input id="date" type="date" class="bg-white text-black px-3 py-2 rounded border border-gray-400 w-40 shrink-0" />
 </div>
 
 <div class="form-row mb-4">
-  <input id="returnDate" type="date" class="input-quarter hidden" />
+  <input id="returnDate" type="date" class="bg-white text-black px-3 py-2 rounded border border-gray-400 w-40 shrink-0 hidden" />
 </div>
   
   <div class="flex gap-4 mb-4">
