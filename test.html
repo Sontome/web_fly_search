@@ -1,115 +1,137 @@
-
-<!-- saved from url=(0062)file:///C:/Users/devil/OneDrive/M%C3%A1y%20t%C3%ADnh/test.html -->
-<html lang="vi"><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>T�m v� m�y bay gi� r&#7867;</title>
-  <script src="./test_files/saved_resource"></script>
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tìm vé máy bay</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { font-family: 'Roboto', sans-serif; }
+    input::placeholder { color: #a1a1aa; }
+    input { color: white; }
+    select { background-color: #27272a; color: white; padding: 0.5rem 0.75rem; border-radius: 0.375rem; width: 100%; }
+  </style>
 </head>
-<body class="bg-zinc-900 text-white p-6">
-  <h1 class="text-2xl font-bold mb-4">&#128747; T�m v� m�y bay gi� r&#7867;</h1>
-
+<body class="min-h-screen bg-zinc-900 text-white p-6">
+  <h1 class="text-2xl font-bold mb-4">🛫 Tìm vé máy bay HVA</h1>
   <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
-    <input id="from" placeholder="N&#417;i &#273;i (SGN)" class="bg-zinc-800 text-white placeholder:text-zinc-400 p-2 rounded">
-    <input id="to" placeholder="N&#417;i &#273;&#7871;n (HAN)" class="bg-zinc-800 text-white placeholder:text-zinc-400 p-2 rounded">
-    <input id="date" type="date" class="bg-zinc-800 text-white placeholder:text-zinc-400 p-2 rounded">
-    <input id="returnDate" type="date" class="bg-zinc-800 text-white placeholder:text-zinc-400 p-2 rounded hidden">
+    <select id="from">
+      <option>SGN</option>
+      <option>ICN</option><option>PUS</option><option>TAE</option><option>HAN</option>
+      <option>DAD</option><option>HPH</option><option>VCA</option><option>CXR</option>
+      <option>DLI</option><option>VDH</option><option>BMV</option><option>VII</option>
+      <option>UIH</option><option>THD</option><option>PQC</option><option>PXU</option>
+      <option>HUI</option><option>VCL</option><option>CAH</option><option>DIN</option>
+      <option>VKG</option><option>TBB</option><option>VDO</option>
+    </select>
+    <select id="to">
+      <option>HAN</option>
+      <option>ICN</option><option>PUS</option><option>TAE</option><option>SGN</option>
+      <option>DAD</option><option>HPH</option><option>VCA</option><option>CXR</option>
+      <option>DLI</option><option>VDH</option><option>BMV</option><option>VII</option>
+      <option>UIH</option><option>THD</option><option>PQC</option><option>PXU</option>
+      <option>HUI</option><option>VCL</option><option>CAH</option><option>DIN</option>
+      <option>VKG</option><option>TBB</option><option>VDO</option>
+    </select>
+    <input id="date" type="date" class="bg-zinc-800 text-white px-3 py-2 rounded w-full" />
+    <input id="returnDate" type="date" class="bg-zinc-800 text-white px-3 py-2 rounded w-full hidden" />
   </div>
-
   <div class="flex gap-4 mb-4">
-    <button id="btnOneway" class="bg-white text-black px-4 py-2 rounded">1 chi&#7873;u</button>
-    <button id="btnRound" class="border border-white px-4 py-2 rounded">Kh&#7913; h&#7891;i</button>
-    <button id="searchBtn" class="bg-blue-500 px-4 py-2 rounded">T�m v�</button>
+    <button onclick="setType('oneway')" id="btnOneway" class="bg-blue-600 text-white px-3 py-2 rounded">1 chiều</button>
+    <button onclick="setType('round')" id="btnRound" class="bg-zinc-700 text-white px-3 py-2 rounded">Khứ hồi</button>
+    <button onclick="searchFlight()" class="bg-green-600 text-white px-3 py-2 rounded">Tìm vé</button>
   </div>
-
-  <p id="loadingText" class="text-yellow-400 hidden">&#272;ang t�m ki&#7871;m v� ngon... &#128373;&#65039;&#8205;&#9794;&#65039;</p>
-
-  <div id="resultContainer" class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6"></div>
+  <p id="loading" class="text-yellow-400 hidden">Đang tìm kiếm vé ... 🕵️‍♂️</p>
+  <div id="results" class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6"></div>
 
   <script>
-    let isRound = false;
-    const btnOneway = document.getElementById("btnOneway");
-    const btnRound = document.getElementById("btnRound");
-    const returnInput = document.getElementById("returnDate");
+    let type = "oneway";
 
-    btnOneway.onclick = () => {
-      isRound = false;
-      btnOneway.classList.add("bg-white", "text-black");
-      btnRound.classList.remove("bg-white", "text-black");
-      returnInput.classList.add("hidden");
-    };
+    function setType(t) {
+      type = t;
+      document.getElementById('btnOneway').className = t === 'oneway' ? 'bg-blue-600 text-white px-3 py-2 rounded' : 'bg-zinc-700 text-white px-3 py-2 rounded';
+      document.getElementById('btnRound').className = t === 'round' ? 'bg-blue-600 text-white px-3 py-2 rounded' : 'bg-zinc-700 text-white px-3 py-2 rounded';
+      document.getElementById('returnDate').classList.toggle('hidden', t !== 'round');
+    }
 
-    btnRound.onclick = () => {
-      isRound = true;
-      btnRound.classList.add("bg-white", "text-black");
-      btnOneway.classList.remove("bg-white", "text-black");
-      returnInput.classList.remove("hidden");
-    };
-
-    document.getElementById("searchBtn").onclick = async () => {
-      const from = document.getElementById("from").value.trim();
-      const to = document.getElementById("to").value.trim();
-      const date = document.getElementById("date").value;
-      const returnDate = document.getElementById("returnDate").value;
-
-      if (!from || !to || !date) {
-        alert("&#272;i&#7873;n &#273;&#7847;y &#273;&#7911; th�ng tin &#273;i &#273;&#7841;i ca &#128548;");
-        return;
-      }
-
-      const formatDate = (d) => {
-        try {
-          return new Date(d).toISOString().split("T")[0];
-        } catch {
-          return d;
-        }
-      };
-
-      const url = new URL("https://f4e4-210-245-49-50.ngrok-free.app/check-ve-vj");
-      url.searchParams.append("city_pair", `${from}-${to}`);
-      url.searchParams.append("departure_place", from);
-      url.searchParams.append("departure_place_name", from);
-      url.searchParams.append("return_place", to);
-      url.searchParams.append("return_place_name", to);
-      url.searchParams.append("departure_date", formatDate(date));
-      url.searchParams.append("return_date", formatDate(returnDate || date));
-      url.searchParams.append("adult_count", "1");
-      url.searchParams.append("child_count", "0");
-      url.searchParams.append("sochieu", isRound ? "2" : "1");
-      url.searchParams.append("name", "Kh�ch l&#7867;");
-
-      document.getElementById("loadingText").classList.remove("hidden");
-      const resBox = document.getElementById("resultContainer");
-      resBox.innerHTML = "";
-
+    function formatDate(d) {
       try {
-        const res = await fetch(url, {
-          headers: { "ngrok-skip-browser-warning": "true" }
-        });
+        return new Date(d).toISOString().split('T')[0];
+      } catch {
+        return d;
+      }
+    }
 
-        const text = await res.text();
-        let results = [];
-
-        try {
-          const json = JSON.parse(text);
-          if (json.message) results = [json.message];
-          else results = Array.isArray(json) ? json : [json];
-        } catch {
-          results = [text];
-        }
-
-        for (const r of results) {
-          const div = document.createElement("div");
-          div.className = "bg-zinc-800 text-white p-4 rounded whitespace-pre-line";
-          div.textContent = r;
-          resBox.appendChild(div);
+    async function searchFlight() {
+      const from = document.getElementById('from').value;
+      const to = document.getElementById('to').value;
+      const date = document.getElementById('date').value;
+      const returnDate = document.getElementById('returnDate').value || date;
+      const loadingEl = document.getElementById('loading');
+      const resultsEl = document.getElementById('results');
+      loadingEl.classList.remove('hidden');
+      resultsEl.innerHTML = '';
+    
+      const baseParams = new URLSearchParams({
+        city_pair: `${from}-${to}`,
+        departure_place: from,
+        departure_place_name: from,
+        return_place: to,
+        return_place_name: to,
+        departure_date: formatDate(date),
+        return_date: formatDate(returnDate),
+        adult_count: "1",
+        child_count: "0",
+        sochieu: type === "round" ? "2" : "1",
+        name: "Khách lẻ"
+      });
+      const baseParamsVNA = new URLSearchParams({
+        
+        dep0: from,
+        
+        arr0: to,
+        
+        depdate0: formatDate(date),
+        depdate1: formatDate(returnDate),
+        
+        sochieu: type === "round" ? "2" : "1",
+        name: "Khách lẻ"
+      });
+    
+      const urls = [
+        { label: "🛫 VietJet", url: `https://f4e4-210-245-49-50.ngrok-free.app/check-ve-vj?${baseParams.toString()}` },
+        { label: "✈️ VNA", url: `https://f4e4-210-245-49-50.ngrok-free.app/check-ve-vna?${baseParamsVNA.toString()}` }
+      ];
+    
+      try {
+        for (const { label, url } of urls) {
+          const res = await fetch(url, {
+            headers: { 'ngrok-skip-browser-warning': 'true' }
+          });
+    
+          const contentType = res.headers.get("content-type");
+          const rawData = await res.text();
+    
+          let data;
+          if (contentType && contentType.includes("application/json")) {
+            data = JSON.parse(rawData);
+          } else {
+            data = [rawData];
+          }
+    
+          const messages = Array.isArray(data) ? data : [data.message || JSON.stringify(data)];
+          resultsEl.innerHTML += `
+            <div class="bg-zinc-700 p-2 text-sm rounded font-bold mb-1">${label}</div>
+            <div class="bg-zinc-800 p-4 rounded whitespace-pre-line mb-4">${messages.join('\n\n')}</div>
+          `;
         }
       } catch (err) {
-        alert("L&#7895;i g&#7885;i API: " + err.message);
+        alert("Lỗi: " + err.message);
       }
-
-      document.getElementById("loadingText").classList.add("hidden");
-    };
+    
+      loadingEl.classList.add('hidden');
+    }
   </script>
-
-</body></html>
+</body>
+</html>
