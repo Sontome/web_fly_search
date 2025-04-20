@@ -179,6 +179,19 @@
     if (localStorage.getItem("loggedIn") !== "true") {
       window.location.href = "index.html";
     }
+    
+
+  // ✅ Auto logout mỗi lần F5 / reload trang
+    window.addEventListener("beforeunload", function () {
+      localStorage.removeItem("loggedIn");
+    });
+  
+    // Còn lại giữ nguyên...
+    let type = "oneway";
+    function setType(t) {
+      type = t;
+      document.getElementById('returnDate').classList.toggle('hidden', t !== 'round');
+    }
 
   // ... (phần còn lại giống bản tìm vé hồi nãy)
 
