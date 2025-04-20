@@ -18,7 +18,7 @@
       <input type="password" id="password" placeholder="••••••" class="w-full px-4 py-2 border rounded mt-1"/>
     </div>
     <button onclick="login()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2 rounded">Đăng nhập</button>
-    <p id="error" class="text-red-600 mt-4 text-sm hidden">Sai tài khoản hoặc mật khẩu rồi đại ca ơi!</p>
+    <p id="error" class="text-red-600 mt-4 text-sm hidden">Sai tài khoản hoặc mật khẩu!</p>
   </div>
 
   <script>
@@ -27,7 +27,7 @@
       const pass = document.getElementById('password').value;
       const error = document.getElementById('error');
 
-      if (user === "admin" && pass === "123456") {
+      if (user === "hva" && pass === "123") {
         localStorage.setItem("loggedIn", "true");
         window.location.href = "test.html";
       } else {
