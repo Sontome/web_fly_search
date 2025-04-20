@@ -7,42 +7,81 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    body { font-family: 'Roboto', sans-serif; }
-    input::placeholder { color: #a1a1aa; }
-    input { color: white; }
-    select { background-color: #27272a; color: white; padding: 0.5rem 0.75rem; border-radius: 0.375rem; width: 100%; }
+    body { font-family: 'Roboto', sans-serif; background-color: white; color: #111; }
+    input, select {
+      border: 2px solid #ccc;
+      background-color: #fff;
+      color: #111;
+      border-radius: 0.375rem;
+      padding: 0.5rem 0.75rem;
+      width: 100%;
+    }
+    input:focus, select:focus {
+      outline: none;
+      border-color: #007bff;
+    }
+    input::placeholder {
+      color: #999;
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 1rem;
+    }
+    .input-quarter {
+      max-width: 180px;
+      width: 100%;
+    }
+    .hover-btn:hover {
+      background-color: #4f46e5;
+      cursor: pointer;
+    }
+    .radio-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-right: 1rem;
+    }
   </style>
 </head>
-<body class="min-h-screen bg-zinc-900 text-white p-6">
-  <h1 class="text-2xl font-bold mb-4">🛫 Tìm vé máy bay HVA</h1>
-  <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
-    <select id="from">
-      <option>SGN</option>
-      <option>ICN</option><option>PUS</option><option>TAE</option><option>HAN</option>
-      <option>DAD</option><option>HPH</option><option>VCA</option><option>CXR</option>
-      <option>DLI</option><option>VDH</option><option>BMV</option><option>VII</option>
-      <option>UIH</option><option>THD</option><option>PQC</option><option>PXU</option>
-      <option>HUI</option><option>VCL</option><option>CAH</option><option>DIN</option>
-      <option>VKG</option><option>TBB</option><option>VDO</option>
-    </select>
-    <select id="to">
-      <option>HAN</option>
-      <option>ICN</option><option>PUS</option><option>TAE</option><option>SGN</option>
-      <option>DAD</option><option>HPH</option><option>VCA</option><option>CXR</option>
-      <option>DLI</option><option>VDH</option><option>BMV</option><option>VII</option>
-      <option>UIH</option><option>THD</option><option>PQC</option><option>PXU</option>
-      <option>HUI</option><option>VCL</option><option>CAH</option><option>DIN</option>
-      <option>VKG</option><option>TBB</option><option>VDO</option>
-    </select>
-    <input id="date" type="date" class="bg-zinc-800 text-white px-3 py-2 rounded w-full" />
-    <input id="returnDate" type="date" class="bg-zinc-800 text-white px-3 py-2 rounded w-full hidden" />
-  </div>
+<body class="min-h-screen bg-white text-black p-6">
+  <h1 class="text-2xl font-bold mb-4 text-black">🛫 Tìm vé máy bay HVA</h1>
+  <div class="flex flex-wrap gap-2 mb-4">
+  <select id="from" class="bg-gray-100 text-black px-3 py-2 rounded border border-gray-400 w-40 shrink-0">
+    <option>SGN</option><option>ICN</option><option>PUS</option><option>TAE</option><option>HAN</option>
+    <option>DAD</option><option>HPH</option><option>VCA</option><option>CXR</option><option>DLI</option>
+    <option>VDH</option><option>BMV</option><option>VII</option><option>UIH</option><option>THD</option>
+    <option>PQC</option><option>PXU</option><option>HUI</option><option>VCL</option><option>CAH</option>
+    <option>DIN</option><option>VKG</option><option>TBB</option><option>VDO</option>
+  </select>
+
+  <select id="to" class="bg-gray-100 text-black px-3 py-2 rounded border border-gray-400 w-40 shrink-0">
+    <option>HAN</option><option>ICN</option><option>PUS</option><option>TAE</option><option>SGN</option>
+    <option>DAD</option><option>HPH</option><option>VCA</option><option>CXR</option><option>DLI</option>
+    <option>VDH</option><option>BMV</option><option>VII</option><option>UIH</option><option>THD</option>
+    <option>PQC</option><option>PXU</option><option>HUI</option><option>VCL</option><option>CAH</option>
+    <option>DIN</option><option>VKG</option><option>TBB</option><option>VDO</option>
+  </select>
+
+  <input id="date" type="date" class="bg-white text-black px-3 py-2 rounded border border-gray-400 w-40 shrink-0" />
+</div>
+
+<div class="form-row mb-4">
+  <input id="returnDate" type="date" class="bg-white text-black px-3 py-2 rounded border border-gray-400 w-40 shrink-0 hidden" />
+</div>
+  
   <div class="flex gap-4 mb-4">
-    <button onclick="setType('oneway')" id="btnOneway" class="bg-blue-600 text-white px-3 py-2 rounded">1 chiều</button>
-    <button onclick="setType('round')" id="btnRound" class="bg-zinc-700 text-white px-3 py-2 rounded">Khứ hồi</button>
-    <button onclick="searchFlight()" class="bg-green-600 text-white px-3 py-2 rounded">Tìm vé</button>
+    <label class="radio-btn">
+      <input type="radio" name="trip" onclick="setType('oneway')" checked />
+      <span>1 chiều</span>
+    </label>
+    <label class="radio-btn">
+      <input type="radio" name="trip" onclick="setType('round')" />
+      <span>Khứ hồi</span>
+    </label>
+    <button onclick="searchFlight()" class="hover-btn bg-green-600 text-white px-3 py-2 rounded">Tìm vé</button>
   </div>
-  <p id="loading" class="text-yellow-400 hidden">Đang tìm kiếm vé ... 🕵️‍♂️</p>
+  <p id="loading" class="text-yellow-500 hidden">Đang tìm kiếm vé ... 🕵️‍♂️</p>
   <div id="results" class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6"></div>
 
   <script>
@@ -50,8 +89,6 @@
 
     function setType(t) {
       type = t;
-      document.getElementById('btnOneway').className = t === 'oneway' ? 'bg-blue-600 text-white px-3 py-2 rounded' : 'bg-zinc-700 text-white px-3 py-2 rounded';
-      document.getElementById('btnRound').className = t === 'round' ? 'bg-blue-600 text-white px-3 py-2 rounded' : 'bg-zinc-700 text-white px-3 py-2 rounded';
       document.getElementById('returnDate').classList.toggle('hidden', t !== 'round');
     }
 
@@ -87,21 +124,17 @@
         name: "Khách lẻ"
       });
       const baseParamsVNA = new URLSearchParams({
-        
         dep0: from,
-        
         arr0: to,
-        
         depdate0: formatDate(date),
         depdate1: formatDate(returnDate),
-        
         sochieu: type === "round" ? "2" : "1",
         name: "Khách lẻ"
       });
     
       const urls = [
-        { label: "🛫 VietJet", url: `https://f2e2-42-115-140-169.ngrok-free.app/vj/check-ve-vj?${baseParams.toString()}` },
-        { label: "✈️ VNA", url: `https://f2e2-42-115-140-169.ngrok-free.app/vna/check-ve-vna?${baseParamsVNA.toString()}` }
+        { label: "🛫 VietJet", url: `https://declined-waves-invitation-fastest.trycloudflare.com/vj/check-ve-vj?${baseParams.toString()}` },
+        { label: "✈️ VNA", url: `https://declined-waves-invitation-fastest.trycloudflare.com/vna/check-ve-vna?${baseParamsVNA.toString()}` }
       ];
     
       try {
@@ -121,17 +154,19 @@
           }
     
           const messages = Array.isArray(data) ? data : [data.message || JSON.stringify(data)];
-          resultsEl.innerHTML += `
-            
-            <!-- Label chiếm 10% -->
-            
-          
-            <!-- Message chiếm 80% -->
-            <div class="bg-zinc-800 p-4 rounded whitespace-pre-line w-[80%]">
-              ${messages.join('\n\n')}
-            </div>
-          </div>
-          `;
+          if (label.includes("VietJet")) {
+            resultsEl.innerHTML += `
+              <div class="bg-blue-100 text-black p-4 rounded mb-4">
+                <h2 class="font-bold text-lg mb-2">${label}</h2>
+                <pre>${messages.join('\n\n')}</pre>
+              </div>`;
+          } else {
+            resultsEl.innerHTML += `
+              <div class="bg-yellow-100 text-black p-4 rounded mb-4">
+                <h2 class="font-bold text-lg mb-2">${label}</h2>
+                <pre>${messages.join('\n\n')}</pre>
+              </div>`;
+          }
         }
       } catch (err) {
         alert("Lỗi: " + err.message);
