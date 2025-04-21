@@ -48,35 +48,34 @@
   <h1 class="text-2xl font-bold mb-4 text-black">🛫 Tìm vé máy bay HVA</h1>
   <div class="flex flex-wrap gap-2 mb-4">
   <select id="from" class="bg-gray-100 text-black px-3 py-2 rounded border border-gray-400 w-40 shrink-0">
-    <option>SGN</option><option>ICN</option><option>PUS</option><option>TAE</option><option>HAN</option>
-    <option>DAD</option><option>HPH</option><option>VCA</option><option>CXR</option><option>DLI</option>
+    <option>ICN</option><option>PUS</option><option>HAN</option><option>SGN</option><option>DAD</option>
+    <option>HPH</option><option>VCA</option><option>CXR</option><option>DLI</option>
     <option>VDH</option><option>BMV</option><option>VII</option><option>UIH</option><option>THD</option>
     <option>PQC</option><option>PXU</option><option>HUI</option><option>VCL</option><option>CAH</option>
     <option>DIN</option><option>VKG</option><option>TBB</option><option>VDO</option>
   </select>
 
   <select id="to" class="bg-gray-100 text-black px-3 py-2 rounded border border-gray-400 w-40 shrink-0">
-    <option>HAN</option><option>ICN</option><option>PUS</option><option>TAE</option><option>SGN</option>
-    <option>DAD</option><option>HPH</option><option>VCA</option><option>CXR</option><option>DLI</option>
+    <option>HAN</option><option>SGN</option><option>HPH</option><option>DAD</option><option>ICN</option><option>PUS</option><option>TAE</option>
+    <option>VCA</option><option>CXR</option><option>DLI</option>
     <option>VDH</option><option>BMV</option><option>VII</option><option>UIH</option><option>THD</option>
     <option>PQC</option><option>PXU</option><option>HUI</option><option>VCL</option><option>CAH</option>
     <option>DIN</option><option>VKG</option><option>TBB</option><option>VDO</option>
   </select>
 
   <input id="date" type="date" class="bg-white text-black px-3 py-2 rounded border border-gray-400 w-40 shrink-0" />
+  <input id="returnDate" type="date" class="bg-white text-black px-3 py-2 rounded border border-gray-400 w-40 shrink-0" />
 </div>
 
-<div class="form-row mb-4">
-  <input id="returnDate" type="date" class="bg-white text-black px-3 py-2 rounded border border-gray-400 w-40 shrink-0 hidden" />
-</div>
+
   
   <div class="flex gap-4 mb-4">
     <label class="radio-btn">
-      <input type="radio" name="trip" onclick="setType('oneway')" checked />
+      <input type="radio" name="trip" onclick="setType('oneway')"  />
       <span>1 chiều</span>
     </label>
     <label class="radio-btn">
-      <input type="radio" name="trip" onclick="setType('round')" />
+      <input type="radio" name="trip" onclick="setType('round')" checked/>
       <span>Khứ hồi</span>
     </label>
     <button onclick="searchFlight()" class="hover-btn bg-green-600 text-white px-3 py-2 rounded">Tìm vé</button>
@@ -91,7 +90,12 @@
       type = t;
       document.getElementById('returnDate').classList.toggle('hidden', t !== 'round');
     }
-
+    window.addEventListener('DOMContentLoaded', () => {
+      const roundTripRadio = document.querySelector('input[name="trip"][onclick*="round"]');
+      if (roundTripRadio?.checked) {
+        setType('round');
+      }
+    });
     function formatDate(d) {
       try {
         return new Date(d).toISOString().split('T')[0];
@@ -133,8 +137,8 @@
       });
     
       const urls = [
-        { label: "🛫 VietJet", url: `https://declined-waves-invitation-fastest.trycloudflare.com/vj/check-ve-vj?${baseParams.toString()}` },
-        { label: "✈️ VNA", url: `https://declined-waves-invitation-fastest.trycloudflare.com/vna/check-ve-vna?${baseParamsVNA.toString()}` }
+        { label: "🛫 VietJet", url: `https://tail-russian-heat-substantial.trycloudflare.com/vj/check-ve-vj?${baseParams.toString()}` },
+        { label: "✈️ VNA", url: `https://tail-russian-heat-substantial.trycloudflare.com/vna/check-ve-vna?${baseParamsVNA.toString()}` }
       ];
     
       try {
