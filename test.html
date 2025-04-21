@@ -42,6 +42,18 @@
       gap: 0.5rem;
       margin-right: 1rem;
     }
+    .fade-in {
+      opacity: 0;
+      transform: translateY(10px);
+      animation: fadeInUp 0.3s ease-out forwards;
+    }
+    
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
   </style>
 </head>
 <body class="min-h-screen bg-white text-black p-6">
@@ -88,7 +100,16 @@
 
     function setType(t) {
       type = t;
-      document.getElementById('returnDate').classList.toggle('hidden', t !== 'round');
+      const returnDateEl = document.getElementById('returnDate');
+      const isRound = t === 'round';
+    
+      returnDateEl.classList.toggle('hidden', !isRound);
+      
+      if (isRound) {
+        returnDateEl.classList.remove('fade-in'); // reset nếu có
+        void returnDateEl.offsetWidth; // trigger reflow để reset animation
+        returnDateEl.classList.add('fade-in');
+      }
     }
     window.addEventListener('DOMContentLoaded', () => {
       const roundTripRadio = document.querySelector('input[name="trip"][onclick*="round"]');
