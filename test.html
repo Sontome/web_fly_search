@@ -219,8 +219,10 @@
           const messages = Array.isArray(data) ? data : [data.message || JSON.stringify(data)];
           resultsEl.innerHTML += `
             <div class="result-box p-4 rounded shadow ${label.includes('VietJet') ? 'bg-blue-500/20' : 'bg-yellow-500/20'}">
+              <div class="overflow-x-auto whitespace-pre-wrap break-words">
               <h2 class="font-bold text-lg mb-2">${label}</h2>
-              <pre>${messages.join('\n\n')}</pre>
+              <pre class="whitespace-pre-wrap break-words">${messages.join('\n\n')}</pre>
+              </div>
             </div>`;
         }
       } catch (err) {
