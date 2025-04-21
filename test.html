@@ -9,76 +9,72 @@
   <style>
     body {
       font-family: 'Roboto', sans-serif;
-      background: linear-gradient(135deg, #1e3a8a, #0f172a);
+      background-color: #ffffff;
+      color: #111827;
+    }
+  
+    input, select {
+      background-color: #f9fafb;
+      color: #111827;
+      border: 1px solid #d1d5db;
+      padding: 0.5rem 0.75rem;
+      border-radius: 0.5rem;
+      transition: all 0.2s ease;
+    }
+  
+    input:focus, select:focus {
+      border-color: #3b82f6;
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+    }
+  
+    input::placeholder {
+      color: #6b7280;
+    }
+  
+    .hover-btn {
+      background-color: #10b981;
       color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 9999px;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 8px rgba(16, 185, 129, 0.2);
     }
-
-    h1 {
-      animation: fadeIn 0.8s ease-in-out;
+  
+    .hover-btn:hover {
+      background-color: #059669;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(5, 150, 105, 0.3);
     }
-
-    .fade-in {
-      opacity: 0;
-      transform: translateY(10px);
-      animation: fadeInUp 0.4s ease-out forwards;
+  
+    .result-box {
+      background-color: #f3f4f6;
+      color: #111827;
+      border-radius: 1rem;
+      padding: 1rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      animation: fadeIn 0.4s ease;
     }
-
-    @keyframes fadeInUp {
+  
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
       to {
         opacity: 1;
         transform: translateY(0);
       }
     }
-
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: scale(0.95);
-      }
-      to {
-        opacity: 1;
-        transform: scale(1);
-      }
-    }
-
-    input, select {
-      background-color: #1f2937;
-      color: white;
-      border: 1px solid #4b5563;
-      padding: 0.5rem 0.75rem;
-      border-radius: 0.5rem;
-      transition: all 0.2s ease;
-    }
-
-    input:focus, select:focus {
-      border-color: #60a5fa;
-      outline: none;
-      box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.4);
-    }
-
-    input::placeholder {
-      color: #9ca3af;
-    }
-
-    .hover-btn:hover {
-      background-color: #3b82f6;
-      transform: scale(1.02);
-      box-shadow: 0 5px 15px rgba(59, 130, 246, 0.3);
-    }
-
+  
     .radio-btn input {
       accent-color: #3b82f6;
     }
-
-    .result-box {
-      animation: fadeIn 0.4s ease-out;
-    }
-
+  
     ::-webkit-calendar-picker-indicator {
-      filter: invert(1);
-      cursor: pointer;
+      filter: invert(0);
     }
-
   </style>
 </head>
 <body class="min-h-screen p-6">
