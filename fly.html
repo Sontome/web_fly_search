@@ -88,7 +88,7 @@
 
     function setType(t) {
       type = t;
-      document.getElementById('returnDate').classList.toggle('hidden', t == 'round');
+      document.getElementById('returnDate').classList.toggle('hidden', t !== 'round');
     }
 
     function formatDate(d) {
