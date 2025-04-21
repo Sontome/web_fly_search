@@ -17,9 +17,10 @@
       background-color: #f9fafb;
       color: #111827;
       border: 1px solid #d1d5db;
-      padding: 0.5rem 0.75rem;
+      padding: 0.4rem 0.6rem;
       border-radius: 0.5rem;
       transition: all 0.2s ease;
+      font-size: 0.875rem; /* Giảm kích thước font */
     }
   
     input:focus, select:focus {
@@ -40,6 +41,7 @@
       font-weight: 500;
       transition: all 0.2s ease;
       box-shadow: 0 2px 8px rgba(16, 185, 129, 0.2);
+      font-size: 0.875rem; /* Giảm kích thước font */
     }
   
     .hover-btn:hover {
@@ -52,9 +54,10 @@
       background-color: #f3f4f6;
       color: #111827;
       border-radius: 1rem;
-      padding: 1rem;
+      padding: 0.8rem;
       box-shadow: 0 2px 6px rgba(0,0,0,0.05);
       animation: fadeIn 0.4s ease;
+      font-size: 0.875rem; /* Giảm kích thước font */
     }
   
     @keyframes fadeIn {
@@ -120,10 +123,16 @@
     .animate-slide-up {
       animation: slideUp 0.6s ease-out both;
     }
+
+    label {
+      font-size: 0.875rem; /* Giảm kích thước font của label */
+      color: rgba(17, 24, 39, 0.6); /* Làm nhạt màu chữ */
+      margin-bottom: 0.25rem; /* Thêm khoảng cách giữa label và ô nhập liệu */
+    }
   </style>
 </head>
 <body class="min-h-screen p-6">
-  <h1 class="text-4xl font-extrabold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-green-500 to-yellow-400 drop-shadow-md animate-fade-in">
+  <h1 class="text-3xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-green-500 to-yellow-400 drop-shadow-md animate-fade-in">
     🛫 Tìm vé máy bay HVA
   </h1>
 
