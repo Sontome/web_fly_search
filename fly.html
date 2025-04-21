@@ -90,7 +90,12 @@
       type = t;
       document.getElementById('returnDate').classList.toggle('hidden', t !== 'round');
     }
-
+    window.addEventListener('DOMContentLoaded', () => {
+      const roundTripRadio = document.querySelector('input[name="trip"][onclick*="round"]');
+      if (roundTripRadio?.checked) {
+        setType('round');
+      }
+    });
     function formatDate(d) {
       try {
         return new Date(d).toISOString().split('T')[0];
