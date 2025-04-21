@@ -112,6 +112,11 @@
         if (returnDateInput.value && returnDateInput.value < departDate) {
           returnDateInput.value = departDate;
         }
+        returnDateInput.focus();
+    // 👉 Nếu trình duyệt hỗ trợ thì bung picker luôn
+        if (typeof returnDateInput.showPicker === "function") {
+          returnDateInput.showPicker();
+        }
       }
     });
     
