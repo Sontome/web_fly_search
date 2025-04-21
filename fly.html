@@ -17,9 +17,10 @@
       background-color: #f9fafb;
       color: #111827;
       border: 1px solid #d1d5db;
-      padding: 0.5rem 0.75rem;
+      padding: 0.4rem 0.6rem;
       border-radius: 0.5rem;
       transition: all 0.2s ease;
+      font-size: 0.875rem; /* Giảm kích thước font */
     }
   
     input:focus, select:focus {
@@ -40,6 +41,7 @@
       font-weight: 500;
       transition: all 0.2s ease;
       box-shadow: 0 2px 8px rgba(16, 185, 129, 0.2);
+      font-size: 0.875rem; /* Giảm kích thước font */
     }
   
     .hover-btn:hover {
@@ -52,9 +54,10 @@
       background-color: #f3f4f6;
       color: #111827;
       border-radius: 1rem;
-      padding: 1rem;
+      padding: 0.8rem;
       box-shadow: 0 2px 6px rgba(0,0,0,0.05);
       animation: fadeIn 0.4s ease;
+      font-size: 0.875rem; /* Giảm kích thước font */
     }
   
     @keyframes fadeIn {
@@ -120,32 +123,51 @@
     .animate-slide-up {
       animation: slideUp 0.6s ease-out both;
     }
+
+    label {
+      font-size: 0.875rem; /* Giảm kích thước font của label */
+      color: rgba(17, 24, 39, 0.6); /* Làm nhạt màu chữ */
+      margin-bottom: 0.25rem; /* Thêm khoảng cách giữa label và ô nhập liệu */
+    }
   </style>
 </head>
 <body class="min-h-screen p-6">
-  <h1 class="text-4xl font-extrabold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-green-500 to-yellow-400 drop-shadow-md animate-fade-in">
+  <h1 class="text-3xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-green-500 to-yellow-400 drop-shadow-md animate-fade-in">
     🛫 Tìm vé máy bay HVA
   </h1>
 
   <div class="flex flex-wrap gap-3 mb-4 animate-slide-up">
-    <select id="from" class="w-40 shrink-0">
-      <option>ICN</option><option>PUS</option><option>HAN</option><option>SGN</option><option>DAD</option>
-      <option>HPH</option><option>VCA</option><option>CXR</option><option>DLI</option>
-      <option>VDH</option><option>BMV</option><option>VII</option><option>UIH</option><option>THD</option>
-      <option>PQC</option><option>PXU</option><option>HUI</option><option>VCL</option><option>CAH</option>
-      <option>DIN</option><option>VKG</option><option>TBB</option><option>VDO</option>
-    </select>
+    <div class="flex flex-col">
+      <label for="from" class="font-semibold">Nơi đi</label>
+      <select id="from" class="w-40 shrink-0">
+        <option>ICN</option><option>PUS</option><option>HAN</option><option>SGN</option><option>DAD</option>
+        <option>HPH</option><option>VCA</option><option>CXR</option><option>DLI</option><option>VDH</option>
+        <option>BMV</option><option>VII</option><option>UIH</option><option>THD</option>
+        <option>PQC</option><option>PXU</option><option>HUI</option><option>VCL</option><option>CAH</option>
+        <option>DIN</option><option>VKG</option><option>TBB</option><option>VDO</option>
+      </select>
+    </div>
 
-    <select id="to" class="w-40 shrink-0">
-      <option>HAN</option><option>SGN</option><option>HPH</option><option>DAD</option><option>ICN</option><option>PUS</option><option>TAE</option>
-      <option>VCA</option><option>CXR</option><option>DLI</option>
-      <option>VDH</option><option>BMV</option><option>VII</option><option>UIH</option><option>THD</option>
-      <option>PQC</option><option>PXU</option><option>HUI</option><option>VCL</option><option>CAH</option>
-      <option>DIN</option><option>VKG</option><option>TBB</option><option>VDO</option>
-    </select>
+    <div class="flex flex-col">
+      <label for="to" class="font-semibold">Nơi đến</label>
+      <select id="to" class="w-40 shrink-0">
+        <option>HAN</option><option>SGN</option><option>HPH</option><option>DAD</option><option>ICN</option><option>PUS</option><option>TAE</option>
+        <option>VCA</option><option>CXR</option><option>DLI</option>
+        <option>VDH</option><option>BMV</option><option>VII</option><option>UIH</option><option>THD</option>
+        <option>PQC</option><option>PXU</option><option>HUI</option><option>VCL</option><option>CAH</option>
+        <option>DIN</option><option>VKG</option><option>TBB</option><option>VDO</option>
+      </select>
+    </div>
 
-    <input id="date" type="date" />
-    <input id="returnDate" type="date" />
+    <div class="flex flex-col">
+      <label for="date" class="font-semibold">Ngày đi</label>
+      <input id="date" type="date" />
+    </div>
+
+    <div class="flex flex-col">
+      <label for="returnDate" class="font-semibold">Ngày về</label>
+      <input id="returnDate" type="date" />
+    </div>
   </div>
 
   <div class="flex gap-4 mb-4 animate-fade-in">
@@ -268,27 +290,21 @@
             <div class="result-box p-4 rounded shadow ${label.includes('VietJet') ? 'bg-blue-500/20' : 'bg-yellow-500/20'}">
               <div class="overflow-x-auto whitespace-pre-wrap break-words">
               <h2 class="font-bold text-lg mb-2">${label}</h2>
-              <pre class="whitespace-pre-wrap break-words">${messages.join('\n\n')}</pre>
+              <pre class="whitespace-pre-wrap break-words">${messages.join("\n")}</pre>
               </div>
-            </div>`;
+            </div>
+          `;
         }
-      } catch (err) {
-        alert("Lỗi: " + err.message);
+      } catch (error) {
+        resultsEl.innerHTML = `
+          <div class="bg-red-500/20 p-4 rounded shadow text-white">
+            <p class="font-semibold">Có lỗi xảy ra: ${error.message}</p>
+          </div>
+        `;
+      } finally {
+        loadingEl.classList.add('hidden');
       }
-      try {
-        const audio = document.getElementById('notifSound');
-        if (audio) await audio.play();
-      } catch (e) {
-        console.warn("Không phát được tiếng chuông: ", e.message);
-      }
-    }
-
-    if (localStorage.getItem("loggedIn") !== "true") {
-      window.location.href = "index.html";
     }
   </script>
-  <audio id="notifSound" preload="auto">
-    <source src="https://cdn.glitch.global/6d643c16-07aa-4b25-94ec-dcc96c396a20/ting.mp3?v=1713701012345" type="audio/mpeg">
-  </audio>
 </body>
 </html>
