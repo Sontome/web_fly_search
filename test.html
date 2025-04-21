@@ -96,6 +96,25 @@
         setType('round');
       }
     });
+    document.getElementById('date').addEventListener('change', (e) => {
+      const departDate = e.target.value;
+      const returnDateInput = document.getElementById('returnDate');
+    
+      // Chỉ xử lý nếu đang chọn khứ hồi
+      if (type === "round") {
+        // 👇 Focus sang ô returnDate
+        returnDateInput.focus();
+    
+        // 👇 Không cho chọn ngày về trước ngày đi
+        returnDateInput.min = departDate;
+    
+        // Nếu ngày về hiện tại bé hơn ngày đi → reset lại
+        if (returnDateInput.value && returnDateInput.value < departDate) {
+          returnDateInput.value = departDate;
+        }
+      }
+    });
+    
     function formatDate(d) {
       try {
         return new Date(d).toISOString().split('T')[0];
