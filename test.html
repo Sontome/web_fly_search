@@ -267,9 +267,16 @@
         name: "Khách lẻ"
       });
 
+      
       const urls = [
-        { label: "🛫 VietJet", url: `https://paintball-coastal-newcastle-cant.trycloudflare.com/vj/check-ve-vj?${baseParams.toString()}` },
-        { label: "✈️ VNA", url: `https://paintball-coastal-newcastle-cant.trycloudflare.com/vna/check-ve-vna?${baseParamsVNA.toString()}` }
+        {
+          label: `<img src="//www.skyscanner.net/images/airlines/favicon/4V.png" alt="VietJet" class="inline h-5 w-5 mr-2 align-middle">VietJet`,
+          url: `https://paintball-coastal-newcastle-cant.trycloudflare.com/vj/check-ve-vj?${baseParams.toString()}`
+        },
+        {
+          label: `<img src="//www.skyscanner.net/images/airlines/small/VN.png" alt="VNA" class="inline h-5 w-5 mr-2 align-middle">VNA`,
+          url: `https://paintball-coastal-newcastle-cant.trycloudflare.com/vna/check-ve-vna?${baseParamsVNA.toString()}`
+        }
       ];
 
       try {
@@ -286,11 +293,12 @@
           }
 
           const messages = Array.isArray(data) ? data : [data.message || JSON.stringify(data)];
+          
           resultsEl.innerHTML += `
-            <div class="result-box p-4 rounded shadow ${label.includes('VietJet') ? 'bg-blue-500/20' : 'bg-yellow-500/20'}">
+            <div class="result-box p-4 rounded shadow bg-white/80">
               <div class="overflow-x-auto whitespace-pre-wrap break-words">
-              <h2 class="font-bold text-lg mb-2">${label}</h2>
-              <pre class="whitespace-pre-wrap break-words">${messages.join("\n")}</pre>
+                <h2 class="font-bold text-lg mb-2 flex items-center gap-2">${label}</h2>
+                <pre class="whitespace-pre-wrap break-words">${messages.join("\n")}</pre>
               </div>
             </div>
           `;
