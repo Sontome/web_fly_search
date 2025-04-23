@@ -297,7 +297,7 @@
       const resultsEl = document.getElementById('results');
       loadingEl.classList.remove('hidden');
       resultsEl.innerHTML = '';
-
+    
       const baseParams = new URLSearchParams({
         city_pair: `${from}-${to}`,
         departure_place: from,
@@ -319,54 +319,60 @@
         sochieu: type === "round" ? "2" : "1",
         name: "Khách lẻ"
       });
-
-      
-      
+    
+      // Spinner cho từng hãng
+      const createSpinner = (label) => {
+        return `<div class="spinner-container flex items-center gap-2">
+                  <span class="spinner"></span>
+                  <span>Đang tìm vé cho ${label}...</span>
+                </div>`;
+      };
+    
       const urls = [
         {
-          label: `<img src="https://i.imgur.com/yh97lmH.png" alt="VietJet" style="width: 150px; height: 150px;" class="inline mr-2 align-middle object-contain">`,
-          url: `https://paintball-coastal-newcastle-cant.trycloudflare.com/vj/check-ve-vj?${baseParams.toString()}`
+          label: "VietJet",
+          url: `https://paintball-coastal-newcastle-cant.trycloudflare.com/vj/check-ve-vj?${baseParams.toString()}`,
+          spinnerId: "vj-spinner"
         },
         {
-          label: `<img src="https://tap.vietnamairlines.com/_next/image?url=%2Flogo-en.png&w=1200&q=75" alt="VNA" style="width: 150px; height: 150px;" class="inline mr-2 align-middle object-contain">`,
-          url: `https://paintball-coastal-newcastle-cant.trycloudflare.com/vna/check-ve-vna?${baseParamsVNA.toString()}`
+          label: "VNA",
+          url: `https://paintball-coastal-newcastle-cant.trycloudflare.com/vna/check-ve-vna?${baseParamsVNA.toString()}`,
+          spinnerId: "vna-spinner"
         }
       ];
-
+    
+      // Hiển thị spinner cho từng hãng
+      urls.forEach(({ label, spinnerId }) => {
+        resultsEl.innerHTML += `<div id="${spinnerId}" class="result-box p-4 rounded shadow bg-white/80 max-w-3xl mx-auto rounded-3xl">
+                                  ${createSpinner(label)}
+                                </div>`;
+      });
+    
       try {
-        for (const { label, url } of urls) {
-          const res = await fetch(url, { headers: { 'ngrok-skip-browser-warning': 'true' } });
-          const contentType = res.headers.get("content-type");
-          const rawData = await res.text();
-
-          let data;
-          if (contentType && contentType.includes("application/json")) {
-            data = JSON.parse(rawData);
-          } else {
-            data = [rawData];
-          }
-
-          const messages = Array.isArray(data) ? data : [data.message || JSON.stringify(data)];
-          
-          resultsEl.innerHTML += `
-            <div class="result-box p-4 rounded shadow bg-white/80 max-w-3xl mx-auto rounded-3xl">
-              <div class="overflow-x-auto whitespace-pre-wrap break-words">
-                <h2 class="font-bold text-lg mb-2 flex items-center gap-2">${label}</h2>
-                <div class="text-sm font-semibold leading-snug">${messages.join("<br>")}</div>
-              </div>
-            </div>
-          `;
-        }
+        const results = await Promise.all(
+          urls.map(async ({ label, url, spinnerId }) => {
+            const res = await fetch(url, { headers: { 'ngrok-skip-browser-warning': 'true' } });
+            const contentType = res.headers.get("content-type");
+            const rawData = await res.text();
+    
+            let data;
+            if (contentType && contentType.includes("application/json")) {
+              data = JSON.parse(rawData);
+            } else {
+              data = [rawData];
+            }
+    
+            const messages = Array.isArray(data) ? data : [data.message || JSON.stringify(data)];
+    
+            // Cập nhật kết quả và ẩn spinner sau khi hoàn thành
+            document.getElementById(spinnerId).innerHTML = `
+              <h2 class="font-bold text-lg mb-2">${label}</h2>
+              <div class="text-sm font-semibold leading-snug">${messages.join("<br>")}</div>
+            `;
+          })
+        );
       } catch (error) {
-        
-        resultsEl.innerHTML += `
-          <div class="result-box p-4 rounded shadow bg-white/80 max-w-3xl mx-auto rounded-3xl">
-            <div class="overflow-x-auto">
-              <h2 class="font-bold text-base mb-2 flex items-center gap-2">${label}</h2>
-              <div class="text-sm leading-snug whitespace-pre-wrap break-words">${messages.join("<br>")}</div>
-            </div>
-          </div>
-        `;
+        console.error('Error fetching data:', error);
       } finally {
         loadingEl.classList.add('hidden');
       }
