@@ -143,6 +143,22 @@
       color: rgba(17, 24, 39, 0.6); /* Làm nhạt màu chữ */
       margin-bottom: 0.25rem; /* Thêm khoảng cách giữa label và ô nhập liệu */
     }
+    .spinner {
+      width: 24px;
+      height: 24px;
+      border: 3px solid #f3f3f3;
+      border-top: 3px solid #10b981;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      display: inline-block;
+      vertical-align: middle;
+    }
+    
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
   </style>
 </head>
 <body class="min-h-screen p-6">
@@ -187,16 +203,19 @@
   <div class="flex gap-4 mb-4 animate-fade-in">
     <label class="radio-btn flex items-center gap-2">
       <input type="radio" name="trip" onclick="setType('oneway')" />
-      <span>1 chiều</span>
+      <span class="font-semibold">1 chiều</span>
     </label>
     <label class="radio-btn flex items-center gap-2">
       <input type="radio" name="trip" onclick="setType('round')" checked />
-      <span>Khứ hồi</span>
+      <span class="font-semibold">Khứ hồi</span>
     </label>
     <button onclick="searchFlight()" class="hover-btn bg-green-500 text-white px-4 py-2 rounded shadow">Tìm vé</button>
   </div>
 
-  <p id="loading" class="text-yellow-300 hidden">Đang tìm kiếm vé ... 🕵️‍♂️</p>
+  <div id="loading" class="hidden flex items-center gap-2 text-green-600 font-semibold animate-fade-in">
+    <span class="spinner"></span>
+    <span>Đang tìm vé ... </span>
+  </div>
   <div id="results" class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6"></div>
 
   <script>
@@ -310,7 +329,7 @@
           const messages = Array.isArray(data) ? data : [data.message || JSON.stringify(data)];
           
           resultsEl.innerHTML += `
-            <div class="result-box p-4 rounded shadow bg-white/80">
+            <div class="result-box p-4 rounded shadow bg-white/80 max-w-3xl mx-auto rounded-3xl">
               <div class="overflow-x-auto whitespace-pre-wrap break-words">
                 <h2 class="font-bold text-lg mb-2 flex items-center gap-2">${label}</h2>
                 <div class="text-sm font-semibold leading-snug">${messages.join("<br>")}</div>
@@ -321,7 +340,7 @@
       } catch (error) {
         
         resultsEl.innerHTML += `
-          <div class="result-box p-4 rounded shadow bg-white/80 max-w-3xl mx-auto">
+          <div class="result-box p-4 rounded shadow bg-white/80 max-w-3xl mx-auto rounded-3xl">
             <div class="overflow-x-auto">
               <h2 class="font-bold text-base mb-2 flex items-center gap-2">${label}</h2>
               <div class="text-sm leading-snug whitespace-pre-wrap break-words">${messages.join("<br>")}</div>
