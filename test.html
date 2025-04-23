@@ -59,6 +59,7 @@
       padding: 0.75rem 1rem;
       font-size: 0.875rem;
       line-height: 1.4;
+      
       animation: popFade 0.4s ease-out forwards;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
@@ -312,7 +313,7 @@
             <div class="result-box p-4 rounded shadow bg-white/80">
               <div class="overflow-x-auto whitespace-pre-wrap break-words">
                 <h2 class="font-bold text-lg mb-2 flex items-center gap-2">${label}</h2>
-                <div class="text-sm leading-snug">${messages.join("<br>")}</div>
+                <div class="text-sm font-semibold leading-snug">${messages.join("<br>")}</div>
               </div>
             </div>
           `;
