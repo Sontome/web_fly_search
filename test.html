@@ -344,7 +344,9 @@
       // Hiển thị spinner cho từng hãng
       urls.forEach(({ label, spinnerId }) => {
         resultsEl.innerHTML += `<div id="${spinnerId}" class="result-box p-4 rounded shadow bg-white/80 max-w-3xl mx-auto rounded-3xl">
+                                  <div class="overflow-x-auto whitespace-pre-wrap break-words">
                                   ${createSpinner(label)}
+                                  </div>
                                 </div>`;
       });
     
