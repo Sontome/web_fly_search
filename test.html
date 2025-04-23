@@ -365,11 +365,11 @@
             }
     
             const messages = Array.isArray(data) ? data : [data.message || JSON.stringify(data)];
-    
+            const formattedMessages = messages.map(m => m.replace(/\n/g, "<br>"));
             // Cập nhật kết quả và ẩn spinner sau khi hoàn thành
             document.getElementById(spinnerId).innerHTML = `
               <h2 class="font-bold text-lg mb-2">${label}</h2>
-              <div class="text-sm font-semibold leading-snug">${messages.join("<br>")}</div>
+              <div class="text-sm font-semibold leading-snug">${formattedMessages.join("<br>")}</div>
             `;
           })
         );
