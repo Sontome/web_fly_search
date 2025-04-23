@@ -329,7 +329,7 @@
           const messages = Array.isArray(data) ? data : [data.message || JSON.stringify(data)];
           
           resultsEl.innerHTML += `
-            <div class="result-box p-4 rounded shadow bg-white/80">
+            <div class="result-box p-4 rounded shadow bg-white/80 max-w-3xl mx-auto rounded-3xl">
               <div class="overflow-x-auto whitespace-pre-wrap break-words">
                 <h2 class="font-bold text-lg mb-2 flex items-center gap-2">${label}</h2>
                 <div class="text-sm font-semibold leading-snug">${messages.join("<br>")}</div>
