@@ -50,14 +50,14 @@
       box-shadow: 0 4px 12px rgba(5, 150, 105, 0.3);
     }
   
+    
     .result-box {
-      background-color: #f3f4f6;
+      background-color: #f9fafb;
       color: #111827;
-      border-radius: 1rem;
-      padding: 0.8rem;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-      animation: fadeIn 0.4s ease;
-      font-size: 0.875rem; /* Giảm kích thước font */
+      border-radius: 0.75rem;
+      padding: 0.5rem 0.75rem;
+      font-size: 0.8125rem;
+      line-height: 1.3;
     }
   
     @keyframes fadeIn {
@@ -299,15 +299,19 @@
             <div class="result-box p-4 rounded shadow bg-white/80">
               <div class="overflow-x-auto whitespace-pre-wrap break-words">
                 <h2 class="font-bold text-lg mb-2 flex items-center gap-2">${label}</h2>
-                <pre class="whitespace-pre-wrap break-words">${messages.join("\n")}</pre>
+                <div class="text-sm leading-snug">${messages.join("<br>")}</div>
               </div>
             </div>
           `;
         }
       } catch (error) {
-        resultsEl.innerHTML = `
-          <div class="bg-red-500/20 p-4 rounded shadow text-white">
-            <p class="font-semibold">Có lỗi xảy ra: ${error.message}</p>
+        
+        resultsEl.innerHTML += `
+          <div class="result-box p-4 rounded shadow bg-white/80">
+            <div class="overflow-x-auto whitespace-pre-wrap break-words">
+              <h2 class="font-bold text-lg mb-2 flex items-center gap-2">${label}</h2>
+              <div class="text-sm leading-snug">${messages.join("<br>")}</div>
+            </div>
           </div>
         `;
       } finally {
