@@ -143,6 +143,22 @@
       color: rgba(17, 24, 39, 0.6); /* Làm nhạt màu chữ */
       margin-bottom: 0.25rem; /* Thêm khoảng cách giữa label và ô nhập liệu */
     }
+    .spinner {
+      width: 24px;
+      height: 24px;
+      border: 3px solid #f3f3f3;
+      border-top: 3px solid #10b981;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      display: inline-block;
+      vertical-align: middle;
+    }
+    
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
   </style>
 </head>
 <body class="min-h-screen p-6">
@@ -196,7 +212,10 @@
     <button onclick="searchFlight()" class="hover-btn bg-green-500 text-white px-4 py-2 rounded shadow">Tìm vé</button>
   </div>
 
-  <p id="loading" class="text-yellow-300 hidden">Đang tìm kiếm vé ... 🕵️‍♂️</p>
+  <div id="loading" class="hidden flex items-center gap-2 text-green-600 font-semibold animate-fade-in">
+    <span class="spinner"></span>
+    <span>Đang tìm vé ngon nghẻ... chờ tí nha đại ca 🌀</span>
+  </div>
   <div id="results" class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6"></div>
 
   <script>
