@@ -254,6 +254,8 @@
       if (roundTripRadio?.checked) {
         setType('round');
       }
+      const today = new Date().toISOString().split('T')[0];
+      document.getElementById('date').min = today;
     });
 
     document.getElementById('date').addEventListener('change', (e) => {
