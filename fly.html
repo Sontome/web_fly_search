@@ -290,7 +290,13 @@
       const returnDate = document.getElementById('returnDate').value || date;
       
       const resultsEl = document.getElementById('results');
-      
+      const searchBtn = document.querySelector('button[onclick="searchFlight()"]');
+      const originalBtnText = searchBtn.innerHTML;
+    
+      // Đổi text nút + disable
+      searchBtn.innerHTML = `<span class="spinner"></span> <span class="ml-2">Đang tìm...</span>`;
+      searchBtn.disabled = true;
+      searchBtn.classList.add('opacity-70', 'cursor-not-allowed');     
       resultsEl.innerHTML = '';
     
       const baseParams = new URLSearchParams({
@@ -370,7 +376,12 @@
         );
       } catch (error) {
         console.error('Error fetching data:', error);
-      } 
+      } finally {
+        // Trả lại nút như cũ
+        searchBtn.innerHTML = originalBtnText;
+        searchBtn.disabled = false;
+        searchBtn.classList.remove('opacity-70', 'cursor-not-allowed');
+      }
     }
   </script>
 </body>
