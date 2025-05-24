@@ -356,7 +356,7 @@
       try {
         const results = await Promise.all(
           urls.map(async ({ label, url, spinnerId }) => {
-            const res = await fetch(url, { headers: { 'ngrok-skip-browser-warning': 'true' } });
+            const res = await fetch(url, { headers:  });
             const contentType = res.headers.get("content-type");
             const rawData = await res.text();
     
