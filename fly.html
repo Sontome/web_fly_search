@@ -1,5 +1,10 @@
 <!DOCTYPE html>
 <html lang="vi">
+  <script>
+  if (localStorage.getItem("loggedIn") !== "true") {
+    location.replace("index.html");
+  }
+</script>
 <head>
   <script>
     if (localStorage.getItem("loggedIn") !== "true") {
