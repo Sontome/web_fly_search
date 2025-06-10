@@ -234,6 +234,9 @@
   <div id="results" class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6"></div>
   
   <script>
+    if (!localStorage.getItem("loggedIn")) {
+      window.location.href = "index.html";
+    }
     let type = "oneway";
 
     function setType(t) {
