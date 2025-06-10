@@ -23,18 +23,19 @@
 
   <script>
     localStorage.removeItem("loggedIn");
+  
     function login() {
       const user = document.getElementById('username').value;
       const pass = document.getElementById('password').value;
       const error = document.getElementById('error');
-
+  
+      // Reset lỗi trước mỗi lần login
+      error.classList.add("hidden");
+  
       if (user === "hva" && pass === "13456") {
         localStorage.setItem("loggedIn", "true");
         window.location.href = "fly.html";
-      } else {
-        error.classList.remove("hidden");
-      }
-      if (user === "admin" && pass === "123") {
+      } else if (user === "admin" && pass === "123") {
         localStorage.setItem("loggedIn", "true");
         window.location.href = "ctv.html";
       } else {
