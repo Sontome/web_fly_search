@@ -234,8 +234,8 @@
   <div id="results" class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6"></div>
   
   <script>
-    if (!localStorage.getItem("loggedIn")) {
-      window.location.href = "index.html";
+    if (localStorage.getItem("loggedIn") !== "true") {
+      window.location.href = "index.html"; // đá về login nếu chưa login
     }
     let type = "oneway";
 
