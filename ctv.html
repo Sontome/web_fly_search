@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
+  <script>
+    if (sessionStorage.getItem("loggedIn") !== "true") {
+      window.location.href = "index.html"; // Đá về trang login nếu chưa đăng nhập
+    }
+  </script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Tìm vé máy bay</title>
@@ -153,6 +159,12 @@
       display: inline-block;
       vertical-align: middle;
     }
+    
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
     .loader {
       height: 80px;
       aspect-ratio: 1;
@@ -172,12 +184,6 @@
     }
     @keyframes l1 {
       to {rotate: 1turn}
-    }
-    
-    @keyframes spin {
-      to {
-        transform: rotate(360deg);
-      }
     }
   </style>
 </head>
@@ -254,6 +260,7 @@
   <div id="results" class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6"></div>
   
   <script>
+    
     let type = "oneway";
 
     function setType(t) {
@@ -354,12 +361,12 @@
       const urls = [
         {
           label: `<img src="https://i.imgur.com/yh97lmH.png" alt="VietJet" style="width: 150px; height: 150px;" class="inline mr-2 align-middle object-contain">`,
-          url: `https://step-facts-eg-psychological.trycloudflare.com/vj/check-ve-vj?${baseParams.toString()}`,
+          url: `https://youth-yale-specialty-membership.trycloudflare.com/vj/check-ve-vj?${baseParams.toString()}`,
           spinnerId: "vj-spinner"
         },
         {
           label: `<img src="https://tap.vietnamairlines.com/_next/image?url=%2Flogo-en.png&w=1200&q=75" alt="VNA" style="width: 150px; height: 150px;" class="inline mr-2 align-middle object-contain">`,
-          url: `https://step-facts-eg-psychological.trycloudflare.com/vna/check-ve-vna?${baseParamsVNA.toString()}`,
+          url: `https://youth-yale-specialty-membership.trycloudflare.com/vna/check-ve-vna?${baseParamsVNA.toString()}`,
           spinnerId: "vna-spinner"
         }
       ];
