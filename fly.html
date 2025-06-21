@@ -165,6 +165,26 @@
         transform: rotate(360deg);
       }
     }
+    .loader {
+      height: 80px;
+      aspect-ratio: 1;
+      padding: 10px;
+      border-radius: 50%;
+      box-sizing: border-box;
+      position: relative;
+      mask: conic-gradient(#000 0 0) content-box exclude,conic-gradient(#000 0 0);
+      filter: blur(12px);
+    }
+    .loader:before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: conic-gradient(#0000 35%,#C02942,#0000 65%);
+      animation: l1 1.5s linear infinite;
+    }
+    @keyframes l1 {
+      to {rotate: 1turn}
+    }
   </style>
 </head>
 <body class="min-h-screen p-6">
@@ -333,7 +353,7 @@
       // Spinner cho từng hãng
       const createSpinner = (label) => {
         return `<div class="spinner-container flex items-center gap-2">
-                  <span class="spinner"></span>
+                  <span class="loader"></span>
                   <span>Đang tìm vé cho ${label}...</span>
                 </div>`;
       };
