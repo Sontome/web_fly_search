@@ -185,6 +185,35 @@
     @keyframes l1 {
       to {rotate: 1turn}
     }
+    .toast {
+      background-color: rgba(31, 41, 55, 0.9);
+      color: #fff;
+      padding: 0.75rem 1rem;
+      border-radius: 0.5rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      min-width: 200px;
+      max-width: 300px;
+      animation: slideIn 0.4s ease, fadeOut 0.5s ease 3s forwards;
+      font-size: 0.875rem;
+    }
+    
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateX(100%);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+    
+    @keyframes fadeOut {
+      to {
+        opacity: 0;
+        transform: translateX(100%);
+      }
+    }    
   </style>
 </head>
 <body class="min-h-screen p-6">
@@ -258,9 +287,21 @@
 
  
   <div id="results" class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6"></div>
+  <div id="toast-container" class="fixed top-4 right-4 space-y-2 z-50"></div>
   
   <script>
+    function showToast(message) {
+      const toastContainer = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      toast.className = 'toast';
+      toast.innerText = message;
     
+      toastContainer.appendChild(toast);
+    
+      setTimeout(() => {
+        toast.remove();
+      }, 4000); // Tự biến mất sau 4s
+    }
     let type = "oneway";
 
     function setType(t) {
@@ -401,6 +442,7 @@
               <h2 class="font-bold text-lg mb-2">${label}</h2>
               <div class="text-sm font-semibold leading-snug">${formattedMessages.join("<br>")}</div>
             `;
+            showToast(`Đã cập nhật kết quả cho ${label.includes('VietJet') ? 'VietJet' : 'Vietnam Airlines'}`);
           })
         );
       } catch (error) {
